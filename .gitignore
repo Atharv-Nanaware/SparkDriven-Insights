@@ -1,2 +1,4 @@
 .venv
-config
+config/config.conf
+
+.env

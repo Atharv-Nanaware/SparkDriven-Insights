@@ -106,7 +106,24 @@ services:
   spark-worker-2:
     <<: *spark-common
 
-
+  spark-streaming-job:
+    image: bitnami/spark:latest
+    container_name: spark-streaming-job
+    volumes:
+      - ./jobs:/opt/bitnami/spark/jobs
+    command: >
+      spark-submit
+      --master spark://spark-master:7077
+      --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1,org.apache.hadoop:hadoop-aws:3.3.1,com.amazonaws:aws-java-sdk:1.11.469
+      /opt/bitnami/spark/jobs/iot_spark_streaming.py
+    environment:
+      AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
+      AWS_SECRET_KEY: ${AWS_SECRET_KEY}
+    depends_on:
+      - spark-master
+      - broker
+    networks:
+      - SparkDriven-Insights
 
 
 networks:

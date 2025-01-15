@@ -1,4 +1,10 @@
+import configparser
 import os
+
+
+
+parser = configparser.ConfigParser()
+parser.read(os.path.join(os.path.dirname(__file__), '.../config/config.conf'))
 
 # Coordinates
 KOLKATA_COORDINATES = {"latitude": 22.5726, "longitude": 88.3639}
@@ -21,7 +27,8 @@ SAFETY_TOPIC = os.getenv('SAFETY_TOPIC', 'safety_data')
 
 # AWS Configuration
 
-configuration = {
-    "AWS_ACCESS_KEY": "AWS_ACCESS_KEY",
-    "AWS_SECRET_KEY": "AWS_SECRET_KEY",
+aws_configuration = {
+    "AWS_ACCESS_KEY": parser.get('aws', 'aws_secret_access_key'),
+    "AWS_SECRET_KEY": parser.get('aws', 'aws_access_key_id'),
 }
+
